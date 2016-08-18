@@ -1,0 +1,77 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Screenja - Efficient OSX Screenshot taking for work
+# Autor: Tomas Dobrotka : tomas@dobrotka.sk | www.dobrotka.sk
+# https://github.com/ggtd/Screenja
+
+APP_NAME="Screenja"
+APP_VERSION='0.02'
+print "Version: "+str(APP_VERSION)
+
+APP_CONFIG_DEFAULT='Screenshot'
+APP_CONFIG_WINDOW_TITLE='Name screenshot'
+
+#first do screenshot ASAP
+import os
+os.system("screencapture  -i /tmp/screenja_tmp.delete.png")
+
+#later do all the rest stuff
+
+from Tkinter import *
+import time
+
+HOME_PATH=os.getenv("HOME")
+
+
+def doquit():
+    print "exiting"
+    os.system("mv /tmp/screenja_tmp.delete.png ~/Desktop/FILE1.png")
+    quit()
+
+
+def save():
+    NAME_RAW=str(e.get())
+    NAME=NAME_RAW.replace(' ','_')
+    FOLDER = ""
+    if NAME<>"":FOLDER=NAME
+    if NAME=="": NAME='Screenshot'
+    FILE_NAME=NAME+"_"+time.strftime('%Y-%m-%d_%H-%M-%S')
+    print "Name: "+NAME
+    print "save..."
+    f = open(HOME_PATH+"/.screenja.last.screen.name", 'w')
+    f.write(str(NAME_RAW))
+    f.close()
+
+    os.system("mkdir ~/Desktop/"+FOLDER+"/")
+    os.system("mv /tmp/screenja_tmp.delete.png ~/Desktop/"+FOLDER+"/"+FILE_NAME+".png")
+    quit()
+
+master = Tk()
+master.title(APP_CONFIG_WINDOW_TITLE)
+master.attributes("-topmost", True)
+master.lift()
+
+
+try:
+    with open(HOME_PATH+"/.screenja.last.screen.name", "r") as f:
+        IMPUT_VALUE=f.readline()
+except:
+    IMPUT_VALUE=APP_CONFIG_DEFAULT
+
+
+e = Entry(master)
+e.pack()
+e.insert(0, IMPUT_VALUE)
+e.focus_set()
+
+b_save = Button(master, text="Save", width=10, command=save)
+b_save.pack()
+
+
+b_calcel = Button(master, text="Cancel", width=10,command=doquit)
+b_calcel.pack()
+e.focus_set()
+
+master.mainloop()
+
