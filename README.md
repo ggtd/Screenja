@@ -26,6 +26,16 @@ You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja
 5. Set your desired keyboard shortcut like : ⌘ + SHIFT + 5
 
 
+#CHANGELOG
+
+## v0.4 [9.11.2016]
++Preview window (see current screensho(s))
++Screenshots now saved in 'Desktop\Screenshots'
+
+
+
+
+
 ## TODO(s)
 - Nicer installation process
 - Better looking naming dialog window
