@@ -113,8 +113,6 @@ b_save = Button(master, text="Save", width=10, command=save)
 b_save.pack()
 
 
-h_button = Button(master, text="History", width=10, command=history)
-h_button.pack()
 
 from PIL import Image, ImageTk
 
