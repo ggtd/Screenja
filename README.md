@@ -8,6 +8,10 @@ This allows you to take screenshots that you want later to use in documents, lik
 It's up to you, what keyboard shortcut you want to use.
 Maybe something like:  ⌘ + SHIFT + 5
 
+
+![Application Demo](https://raw.githubusercontent.com/ggtd/Screenja/master/README.images/app_demo.png "Application Demo")
+
+
 #Installation
 
 ###1. Download and install
