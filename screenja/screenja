@@ -6,11 +6,10 @@
 # https://github.com/ggtd/Screenja
 
 APP_NAME="Screenja"
-APP_VERSION='0.04'
+APP_VERSION='0.05alfa'
 print "Version: "+str(APP_VERSION)
 
 SAVE_SUBDIR='Screenshots'
-
 APP_CONFIG_DEFAULT='Screenshot'
 APP_CONFIG_WINDOW_TITLE='Name screenshot'
 
@@ -19,15 +18,100 @@ APP_CONFIG_WINDOW_TITLE='Name screenshot'
 import os
 import time
 
-TMP_IMAGE_FILENAME="/tmp/screenja_tmp.delete."+str(time.time())+".png"
 
+TMP_IMAGE_FILENAME="/tmp/screenja_tmp.delete."+str(time.time())+".png"
 os.system("screencapture  -i "+TMP_IMAGE_FILENAME)
 
 #later do all the rest stuff
 
 from Tkinter import *
-
 HOME_PATH=os.getenv("HOME")
+
+try:
+    lista=os.listdir(HOME_PATH+"/Desktop/"+SAVE_SUBDIR)
+except:
+    os.system("mkdir ~/Desktop/"+SAVE_SUBDIR+'/')
+    lista=[]
+
+class AutocompleteEntry(Entry):
+    def __init__(self, lista, *args, **kwargs):
+
+        Entry.__init__(self, *args, **kwargs)
+        self.lista = lista
+        self.var = self["textvariable"]
+        if self.var == '':
+            self.var = self["textvariable"] = StringVar()
+
+        self.var.trace('w', self.changed)
+        self.bind("<Right>", self.selection)
+        self.bind("<Up>", self.up)
+        self.bind("<Down>", self.down)
+
+        self.lb_up = False
+
+    def changed(self, name, index, mode):
+
+        if self.var.get() == '':
+            self.lb.destroy()
+            self.lb_up = False
+        else:
+            words = self.comparison()
+            if words:
+                if not self.lb_up:
+                    self.lb = Listbox()
+                    self.lb.bind("<Double-Button-1>", self.selection)
+                    self.lb.bind("<Right>", self.selection)
+                    self.lb.place(x=self.winfo_x(), y=self.winfo_y() + self.winfo_height())
+                    self.lb_up = True
+
+                self.lb.delete(0, END)
+                for w in words:
+                    self.lb.insert(END, w)
+            else:
+                if self.lb_up:
+                    self.lb.destroy()
+                    self.lb_up = False
+
+    def selection(self, event):
+
+        if self.lb_up:
+            self.var.set(self.lb.get(ACTIVE))
+            self.lb.destroy()
+            self.lb_up = False
+            self.icursor(END)
+
+    def up(self, event):
+
+        if self.lb_up:
+            if self.lb.curselection() == ():
+                index = '0'
+            else:
+                index = self.lb.curselection()[0]
+            if index != '0':
+                self.lb.selection_clear(first=index)
+                index = str(int(index) - 1)
+                self.lb.selection_set(first=index)
+                self.lb.activate(index)
+
+    def down(self, event):
+
+        if self.lb_up:
+            if self.lb.curselection() == ():
+                index = '0'
+            else:
+                index = self.lb.curselection()[0]
+            if index != END:
+                self.lb.selection_clear(first=index)
+                index = str(int(index) + 1)
+                self.lb.selection_set(first=index)
+                self.lb.activate(index)
+
+    def comparison(self):
+        pattern = re.compile('.*' + self.var.get() + '.*')
+        return [w for w in self.lista if re.match(pattern, w)]
+
+
+
 
 
 def doquit():
@@ -38,43 +122,9 @@ def doquit():
 
 
 
-def history():
-    print "history......"
-    e.pack_forget()
-    h_button.pack_forget()
-    b_save.pack_forget()
-    b_calcel.pack_forget()
-
-    variable = StringVar(master)
-    variable.set("one")  # default value
-    w = OptionMenu(master, variable, "one", "two", "three")
-    w.pack()
-
-    b_save.pack()
-
-    bacckk = Button(master, text="< Back", width=10, command=history_back)
-    bacckk.pack()
-
-
-    b_calcel.pack()
-
-
-    pass
-
-def history_back():
-    bacckk.pack_forget()
-    w.pack_forget()
-    e.pack()
-    b_save.pack()
-    h_button.pack()
-    b_calcel.pack()
-
-
-
 def save():
     NAME_RAW=str(e.get())
     NAME=NAME_RAW.replace(' ','_')
-    FOLDER = 'Screenshots'
     if NAME<>"":FOLDER=NAME
     if NAME=="": NAME='Screenshot'
     FILE_NAME=NAME+"_"+time.strftime('%Y-%m-%d_%H-%M-%S')
@@ -92,6 +142,7 @@ master = Tk()
 
 
 master.title(APP_CONFIG_WINDOW_TITLE)
+master.geometry("750x450")
 master.attributes("-topmost", True)
 master.lift()
 
@@ -103,18 +154,28 @@ try:
 except:
     IMPUT_VALUE=APP_CONFIG_DEFAULT
 
-
-e = Entry(master)
-e.pack()
-e.insert(0, IMPUT_VALUE)
-e.focus_set()
-
 b_save = Button(master, text="Save", width=10, command=save)
 b_save.pack()
 
 
+b_calcel = Button(master, text="Cancel", width=10,command=doquit)
+b_calcel.pack()
+
+
+# e = Entry(master)
+e = AutocompleteEntry(lista, master)
+e.pack()
+e.insert(0, IMPUT_VALUE)
+# e.focus_set()
+
+
+
+
+
 
 from PIL import Image, ImageTk
+
+
 
 
 image = Image.open(TMP_IMAGE_FILENAME)
@@ -135,8 +196,6 @@ label = Label(master, image=display,height=300, width=300)
 label.pack()
 
 
-b_calcel = Button(master, text="Cancel", width=10,command=doquit)
-b_calcel.pack()
 e.focus_set()
 
 

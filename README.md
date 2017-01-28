@@ -32,6 +32,11 @@ You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja
 
 #CHANGELOG
 
+## v0.5 [28.1.2017alfa]
++Auto-complete name [History / List Folder for existing names]
++Changes to UI. [very experimantal]
+
+
 ## v0.4 [9.11.2016]
 +Preview window (see current screensho(s))
 +Screenshots now saved in 'Desktop\Screenshots'
@@ -41,5 +46,8 @@ You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja
 
 
 ## TODO(s)
-- Nicer installation process
-- Better looking naming dialog window
+- [x] Nicer installation process
+- [x] Better looking naming dialog window
+- [x] Auto-Suggest names history
+- [ ] Get dir of GUI History auto-sugest Pop-up on startup
+
