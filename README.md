@@ -1,4 +1,4 @@
-#Screenja
+# Screenja
 
 Efficient categorization of screenshots on OSX.
 
@@ -12,14 +12,14 @@ Maybe something like:  ⌘ + SHIFT + 5
 ![Application Demo](https://raw.githubusercontent.com/ggtd/Screenja/master/README.images/app_demo.png "Application Demo")
 
 
-#Installation
+# Installation
 
-###1. Download and install
+### 1. Download and install
 
 1. Git clone the source code.
 2. run : install.sh
 
-###2. Setup keyboard shortcut
+### 2. Setup keyboard shortcut
 After you completed the step one of installation.
 You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja.
 
@@ -30,14 +30,14 @@ You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja
 5. Set your desired keyboard shortcut like : ⌘ + SHIFT + 5
 
 
-#CHANGELOG
+# CHANGELOG
 
-## v0.5 [28.1.2017alfa]
+### v0.5 [28.1.2017alfa]
 +Auto-complete name [History / List Folder for existing names]
 +Changes to UI. [very experimantal]
 
 
-## v0.4 [9.11.2016]
+### v0.4 [9.11.2016]
 +Preview window (see current screensho(s))
 +Screenshots now saved in 'Desktop\Screenshots'
 
