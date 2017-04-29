@@ -46,8 +46,9 @@ You have to setup a keyboard shortcut, that triggers Screenshoting with Screenja
 
 
 ## TODO(s)
+- [ ] Read and re-write README.md :)
 - [x] Nicer installation process
 - [x] Better looking naming dialog window
 - [x] Auto-Suggest names history
-- [ ] Get dir of GUI History auto-sugest Pop-up on startup
+
 
